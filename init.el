@@ -52,6 +52,12 @@
 ;;(color-theme-digital-ofs1)
 ;;(color-theme-katester)
 
+;; indent previous line after RET
+(global-set-key (kbd "RET") 'reindent-then-newline-and-indent)
+
+;; don't eat my shell
+(setq-default comint-prompt-read-only t)
+
 ;; Make colours in Emacs' shell look normal
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
@@ -84,7 +90,7 @@
 (setq uniquify-ignore-buffers-re "^\\*")
 
 ;; set font
-;;(set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-80-*-*-*-*-*-*")
+(set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-98-*-*-*-*-*-*")
 
 ;; open up two panes side by side
 ;;(split-window-horizontally)
