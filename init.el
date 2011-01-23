@@ -5,6 +5,10 @@
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/git/bin"))
 (setq exec-path (append exec-path '("/usr/local/git/bin")))
 
+;;js2 mode
+;;(autoload 'js2-mode "js2" nil t)
+;;(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
 ;; disable annoying backups and autosaves
 (setq backup-inhibited t)
 (setq auto-save-default nil)
@@ -52,11 +56,17 @@
 ;;(color-theme-digital-ofs1)
 ;;(color-theme-katester)
 
-;; indent previous line after RET
-(global-set-key (kbd "RET") 'reindent-then-newline-and-indent)
+;; inserts js log call and puts cursor between brackets
+(defun js-insert-console ()
+  (interactive)
+  (insert "console.log()")
+  (backward-char))
 
 ;; don't eat my shell
 (setq-default comint-prompt-read-only t)
+
+;; type over selection
+(delete-selection-mode 1)
 
 ;; Make colours in Emacs' shell look normal
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -65,9 +75,13 @@
 (add-hook 'shell-mode-hook '(lambda () (toggle-truncate-lines 1)))
 
 ;; Key bindings
-;;(load-library "keybindings.el")
 (global-set-key (read-kbd-macro "C-x M-v") 'visual-line-mode)
 (global-set-key "\C-l" 'goto-line)
+(global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
+(global-set-key (read-kbd-macro "C-x g") 'rgrep)
+(global-set-key (kbd "RET") 'reindent-then-newline-and-indent) ;; indent previous line after RET
+(global-set-key (read-kbd-macro "C-x p") "import pdb; pdb.set_trace()") ;; python debugger
+(global-set-key (read-kbd-macro "C-x l") 'js-insert-console) ;; insert console.log()
 
 ;; Font
 ;;(set-default-font
@@ -76,11 +90,6 @@
 (ido-mode)
 
 (setq default-tab-width 4)
-
-(global-set-key (read-kbd-macro "C-x g") 'rgrep)
-
-;; python debugger
-(global-set-key (read-kbd-macro "C-x p") "import pdb; pdb.set_trace()")
 
 ;; can't remember what this does
 (require 'uniquify)
@@ -91,9 +100,6 @@
 
 ;; set font
 (set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-98-*-*-*-*-*-*")
-
-;; open up two panes side by side
-;;(split-window-horizontally)
 
 ;; periodically save current emacs state and restore on startup
 ;;(desktop-save-mode 1)
