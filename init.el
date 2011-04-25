@@ -5,6 +5,10 @@
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/git/bin"))
 (setq exec-path (append exec-path '("/usr/local/git/bin")))
 
+;; add node to shell path
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
+(setq exec-path (append exec-path '("/usr/local/bin")))
+
 ;;js2 mode
 ;;(autoload 'js2-mode "js2" nil t)
 ;;(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
@@ -37,6 +41,8 @@
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-blackboard)
+
+(require 'haml-mode)
 
 ;; Make Emacs look pretty
 ;;(require 'color-theme)
@@ -83,6 +89,9 @@
 (global-set-key (read-kbd-macro "C-x p") "import pdb; pdb.set_trace()") ;; python debugger
 (global-set-key (read-kbd-macro "C-x l") 'js-insert-console) ;; insert console.log()
 
+;; remap dynamic expansion to escape
+(global-set-key (kbd "<escape>") 'dabbrev-expand)
+
 ;; Font
 ;;(set-default-font
 ;; "-microsoft-Consolas-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1")
@@ -104,8 +113,18 @@
 ;; periodically save current emacs state and restore on startup
 ;;(desktop-save-mode 1)
 
+;; pipe down
+(setq bell-volume 0)
+(setq sound-alist nil)
+
 ;; maximise frame
 (add-to-list 'default-frame-alist '(left . 0))
 (add-to-list 'default-frame-alist '(top . 0))
 (add-to-list 'default-frame-alist '(height . 95))
 (add-to-list 'default-frame-alist '(width . 320))
+
+;; tramp - /sub.server.com:public_html/foo.html
+(require 'tramp)
+(setq tramp-default-method "scp")
+
+(shell)
