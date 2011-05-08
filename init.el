@@ -9,10 +9,6 @@
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin/"))
 (setq exec-path (append exec-path '("/usr/local/bin")))
 
-;;js2 mode
-;;(autoload 'js2-mode "js2" nil t)
-;;(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-
 ;; disable annoying backups and autosaves
 (setq backup-inhibited t)
 (setq auto-save-default nil)
@@ -44,29 +40,25 @@
 
 (require 'haml-mode)
 
-;; Make Emacs look pretty
-;;(require 'color-theme)
-;;(require 'color-theme-gruber-darker)
-;;(require 'color-theme-tangotango)
-;;(require 'color-theme-subdued)
-;;(require 'color-theme-blackboard)
-;;(color-theme-subdued)
-
-;; I also like these themes:
-;;(color-theme-blackboard)
-;;(color-theme-tangotango)
-;;(color-theme-gruber-darker)
-;;(color-theme-subtle-hacker)
-;;(color-theme-hober)
-;;(color-theme-dark-laptop)
-;;(color-theme-digital-ofs1)
-;;(color-theme-katester)
-
 ;; inserts js log call and puts cursor between brackets
 (defun js-insert-console ()
   (interactive)
   (insert "console.log()")
   (backward-char))
+
+
+;; narrower window, better line wrapping for prose
+(defun write-words ()
+  (interactive)
+  (set-frame-width nil 90)
+  (global-visual-line-mode t))
+
+;; widescreen, no line-wrap
+(defun write-code ()
+  (interactive)
+  (set-frame-width nil 320)
+  (set-frame-height nil 95)
+  (global-visual-line-mode 0))
 
 ;; don't eat my shell
 (setq-default comint-prompt-read-only t)
@@ -81,20 +73,22 @@
 (add-hook 'shell-mode-hook '(lambda () (toggle-truncate-lines 1)))
 
 ;; Key bindings
-(global-set-key (read-kbd-macro "C-x M-v") 'visual-line-mode)
 (global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
 (global-set-key (read-kbd-macro "C-x g") 'rgrep)
-(global-set-key (kbd "RET") 'reindent-then-newline-and-indent) ;; indent previous line after RET
+(global-set-key (kbd "RET") 'reindent-then-newline-and-indent) ;; indent previous line after
 (global-set-key (read-kbd-macro "C-x p") "import pdb; pdb.set_trace()") ;; python debugger
 (global-set-key (read-kbd-macro "C-x l") 'js-insert-console) ;; insert console.log()
+(global-set-key (read-kbd-macro "C-x w") 'write-words)
+(global-set-key (read-kbd-macro "C-x c") 'write-code)
+(global-set-key (read-kbd-macro "M-s") 'query-replace)
+
+;; map start of file and end of file commands to nicer key combos
+(global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)
+(global-set-key (read-kbd-macro "M-]") 'end-of-buffer)
 
 ;; remap dynamic expansion to escape
 (global-set-key (kbd "<escape>") 'dabbrev-expand)
-
-;; Font
-;;(set-default-font
-;; "-microsoft-Consolas-normal-normal-normal-*-10-*-*-*-m-0-iso10646-1")
 
 (ido-mode)
 
@@ -110,9 +104,6 @@
 ;; set font
 (set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-98-*-*-*-*-*-*")
 
-;; periodically save current emacs state and restore on startup
-;;(desktop-save-mode 1)
-
 ;; pipe down
 (setq bell-volume 0)
 (setq sound-alist nil)
@@ -120,11 +111,12 @@
 ;; maximise frame
 (add-to-list 'default-frame-alist '(left . 0))
 (add-to-list 'default-frame-alist '(top . 0))
-(add-to-list 'default-frame-alist '(height . 95))
+(add-to-list 'default-frame-alist '(height . 200))
 (add-to-list 'default-frame-alist '(width . 320))
 
 ;; tramp - /sub.server.com:public_html/foo.html
 (require 'tramp)
 (setq tramp-default-method "scp")
 
+;; start with the shell open
 (shell)
