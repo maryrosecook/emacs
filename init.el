@@ -40,12 +40,23 @@
 
 (require 'haml-mode)
 
+;; setup textmate mode and peepopen
+;; (add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
+;; (add-to-list 'load-path "~/.emacs.d/vendor/")
+;; (require 'textmate)
+;; (require 'peepopen)
+;; (textmate-mode)
+;; (setq ns-pop-up-frames nil) ;; never open files in new emacs window
+;; (defun open (project) (interactive (list (read-directory-name "Peepopen for project: " "~/code/")))
+;;   (flet ((textmate-project-root () (file-truename project)))
+;;     (peepopen-goto-file-gui)))
+;; (global-set-key [(meta ?o)] 'open)
+
 ;; inserts js log call and puts cursor between brackets
 (defun js-insert-console ()
   (interactive)
   (insert "console.log()")
   (backward-char))
-
 
 ;; narrower window, better line wrapping for prose
 (defun write-words ()
@@ -77,7 +88,6 @@
 (global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
 (global-set-key (read-kbd-macro "C-x g") 'rgrep)
 (global-set-key (kbd "RET") 'reindent-then-newline-and-indent) ;; indent previous line after
-(global-set-key (read-kbd-macro "C-x p") "import pdb; pdb.set_trace()") ;; python debugger
 (global-set-key (read-kbd-macro "C-x l") 'js-insert-console) ;; insert console.log()
 (global-set-key (read-kbd-macro "C-x w") 'write-words)
 (global-set-key (read-kbd-macro "C-x c") 'write-code)
@@ -90,8 +100,6 @@
 ;; remap dynamic expansion to escape
 (global-set-key (kbd "<escape>") 'dabbrev-expand)
 
-(ido-mode)
-
 (setq default-tab-width 4)
 
 ;; can't remember what this does
@@ -101,22 +109,27 @@
 (setq uniquify-after-kill-buffer-p t)
 (setq uniquify-ignore-buffers-re "^\\*")
 
-;; set font
-(set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-98-*-*-*-*-*-*")
-
 ;; pipe down
 (setq bell-volume 0)
 (setq sound-alist nil)
 
-;; maximise frame
-(add-to-list 'default-frame-alist '(left . 0))
-(add-to-list 'default-frame-alist '(top . 0))
-(add-to-list 'default-frame-alist '(height . 200))
-(add-to-list 'default-frame-alist '(width . 320))
+;; (add-to-list 'default-frame-alist '(height . 95))
+;; (add-to-list 'default-frame-alist '(width . 320))
 
 ;; tramp - /sub.server.com:public_html/foo.html
 (require 'tramp)
 (setq tramp-default-method "scp")
+
+(set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-106-*-*-*-*-*-*")
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(default ((t (:height 125 :family "Inconsolata")))))
+
+(write-code)
+(ido-mode)
 
 ;; start with the shell open
 (shell)
