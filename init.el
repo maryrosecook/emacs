@@ -71,6 +71,10 @@
   (set-frame-height nil 95)
   (global-visual-line-mode 0))
 
+(defun revert-buffer-no-confirm ()
+    "Revert buffer without confirmation."
+    (interactive) (revert-buffer t t))
+
 ;; don't eat my shell
 (setq-default comint-prompt-read-only t)
 
@@ -92,6 +96,7 @@
 (global-set-key (read-kbd-macro "C-x w") 'write-words)
 (global-set-key (read-kbd-macro "C-x c") 'write-code)
 (global-set-key (read-kbd-macro "M-s") 'query-replace)
+(global-set-key "\C-x\C-r" 'revert-buffer-no-confirm) ;; remap revert buffer
 
 ;; map start of file and end of file commands to nicer key combos
 (global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)
@@ -101,6 +106,9 @@
 (global-set-key (kbd "<escape>") 'dabbrev-expand)
 
 (setq default-tab-width 4)
+
+(setq js-indent-level 2)
+(setq ruby-indent-level 2)
 
 ;; can't remember what this does
 (require 'uniquify)
