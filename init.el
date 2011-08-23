@@ -40,22 +40,29 @@
 
 (require 'haml-mode)
 
-;; setup textmate mode and peepopen
-;; (add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
-;; (add-to-list 'load-path "~/.emacs.d/vendor/")
-;; (require 'textmate)
-;; (require 'peepopen)
-;; (textmate-mode)
-;; (setq ns-pop-up-frames nil) ;; never open files in new emacs window
-;; (defun open (project) (interactive (list (read-directory-name "Peepopen for project: " "~/code/")))
-;;   (flet ((textmate-project-root () (file-truename project)))
-;;     (peepopen-goto-file-gui)))
-;; (global-set-key [(meta ?o)] 'open)
+;;setup textmate mode and peepopen
+(add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
+(add-to-list 'load-path "~/.emacs.d/vendor/")
+(require 'textmate)
+(require 'peepopen)
+(textmate-mode)
+(setq ns-pop-up-frames nil) ;; never open files in new emacs window
+(defun open (project) (interactive (list (read-directory-name "Peepopen for project: " "~/code/")))
+  (flet ((textmate-project-root () (file-truename project)))
+    (peepopen-goto-file-gui)))
+(global-set-key [(meta ?o)] 'open)
 
 ;; inserts js log call and puts cursor between brackets
 (defun js-insert-console ()
   (interactive)
   (insert "console.log()")
+  (backward-char))
+
+(defun find-name-file ()
+  (shell)
+  (end-of-buffer)
+  (interactive)
+  (insert "find . -name \"\"")
   (backward-char))
 
 ;; narrower window, better line wrapping for prose
@@ -97,6 +104,8 @@
 (global-set-key (read-kbd-macro "C-x c") 'write-code)
 (global-set-key (read-kbd-macro "M-s") 'query-replace)
 (global-set-key "\C-x\C-r" 'revert-buffer-no-confirm) ;; remap revert buffer
+(global-set-key (read-kbd-macro "C-x t") 'find-name-file)
+
 
 ;; map start of file and end of file commands to nicer key combos
 (global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)

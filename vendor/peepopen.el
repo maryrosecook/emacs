@@ -63,11 +63,13 @@
     (mapconcat 'identity strings separator))
   (let ((root (textmate-project-root)))
     (when (null root)
-      (error
-       (concat
-        "Can't find a suitable project root ("
-        (string-join " " *textmate-project-roots* )
-        ")")))
+      ;; (error
+      ;;  (concat
+      ;;   "Can't find a suitable project root ("
+      ;;   (string-join " " *textmate-project-roots* )
+      ;;   ")"))
+      (open (read-directory-name "Peepopen for project: " "~/code/"))
+      )
     (shell-command-to-string
      (format "open 'peepopen://%s?editor=%s'"
              (expand-file-name root)
