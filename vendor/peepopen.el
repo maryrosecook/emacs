@@ -70,6 +70,7 @@
       ;;   ")"))
       (open (read-directory-name "Peepopen for project: " "~/code/"))
       )
+    (message root)
     (shell-command-to-string
      (format "open 'peepopen://%s?editor=%s'"
              (expand-file-name root)

@@ -1,6 +1,13 @@
 ;; load paths
 (add-to-list 'load-path "~/.emacs.d/")
 
+(add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
+(autoload 'ruby-mode "ruby-mode" "Major mode for editing Ruby code" t)
+(add-hook 'ruby-mode-hook (lambda () (local-set-key "\r" 'newline-and-indent)))
+
+;; markdown
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
 ;; add git to shell path
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/git/bin"))
 (setq exec-path (append exec-path '("/usr/local/git/bin")))
@@ -37,6 +44,7 @@
 (require 'color-theme)
 (color-theme-initialize)
 (color-theme-blackboard)
+(set-face-background 'fringe "#0C1021")
 
 (require 'haml-mode)
 
@@ -58,25 +66,41 @@
   (insert "console.log()")
   (backward-char))
 
-(defun find-name-file ()
-  (shell)
-  (end-of-buffer)
+;; inserts js log call and puts cursor between brackets
+(defun js-insert-function ()
   (interactive)
-  (insert "find . -name \"\"")
+  (insert "function() {}")
   (backward-char))
 
 ;; narrower window, better line wrapping for prose
 (defun write-words ()
   (interactive)
   (set-frame-width nil 90)
-  (global-visual-line-mode t))
+  (global-visual-line-mode t)
+  (setq mode-line-format nil)
+  (show-paren-mode nil))
 
 ;; widescreen, no line-wrap
 (defun write-code ()
   (interactive)
-  (set-frame-width nil 320)
+  ;;(set-frame-width nil 320)
   (set-frame-height nil 95)
-  (global-visual-line-mode 0))
+  (global-visual-line-mode 0)
+  (show-paren-mode)
+  (setq mode-line-format
+    (list "-"
+      'mode-line-mule-info
+      'mode-line-modified
+      'mode-line-frame-identification
+      'mode-line-buffer-identification
+      "   "
+      'mode-line-position
+      '(vc-mode vc-mode)
+      "   "
+      'mode-line-modes
+      '(which-func-mode ("" which-func-format))
+      '(global-mode-string (global-mode-string))
+      )))
 
 (defun revert-buffer-no-confirm ()
     "Revert buffer without confirmation."
@@ -98,14 +122,13 @@
 (global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
 (global-set-key (read-kbd-macro "C-x g") 'rgrep)
-(global-set-key (kbd "RET") 'reindent-then-newline-and-indent) ;; indent previous line after
+(global-set-key (kbd "RET") 'newline-and-indent) ;; indent previous line after
 (global-set-key (read-kbd-macro "C-x l") 'js-insert-console) ;; insert console.log()
+(global-set-key (read-kbd-macro "C-x f") 'js-insert-function) ;; insert function() {}
 (global-set-key (read-kbd-macro "C-x w") 'write-words)
 (global-set-key (read-kbd-macro "C-x c") 'write-code)
 (global-set-key (read-kbd-macro "M-s") 'query-replace)
 (global-set-key "\C-x\C-r" 'revert-buffer-no-confirm) ;; remap revert buffer
-(global-set-key (read-kbd-macro "C-x t") 'find-name-file)
-
 
 ;; map start of file and end of file commands to nicer key combos
 (global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)
@@ -114,8 +137,11 @@
 ;; remap dynamic expansion to escape
 (global-set-key (kbd "<escape>") 'dabbrev-expand)
 
-(setq default-tab-width 4)
+;; go full screen (os x and fullscreen brew install of emacs 23 only)
+(global-set-key (read-kbd-macro "C-x t") 'ns-toggle-fullscreen)
 
+;; set indent levels
+(setq default-tab-width 4)
 (setq js-indent-level 2)
 (setq ruby-indent-level 2)
 
@@ -130,9 +156,6 @@
 (setq bell-volume 0)
 (setq sound-alist nil)
 
-;; (add-to-list 'default-frame-alist '(height . 95))
-;; (add-to-list 'default-frame-alist '(width . 320))
-
 ;; tramp - /sub.server.com:public_html/foo.html
 (require 'tramp)
 (setq tramp-default-method "scp")
@@ -146,7 +169,17 @@
  '(default ((t (:height 125 :family "Inconsolata")))))
 
 (write-code)
-(ido-mode)
+
+;; enable ido mode
+(require 'ido)
+(ido-mode t)
+(setq ido-enable-flex-matching t)
+
+(fringe-mode '(1 . 0))
+
+(setq-default cursor-type '(bar . 1))
+
+(set-cursor-color '"#FFFFFF")
 
 ;; start with the shell open
 (shell)
