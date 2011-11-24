@@ -209,8 +209,12 @@
 (fringe-mode '(1 . 0))
 
 (setq-default cursor-type '(bar . 1))
-
 (set-cursor-color '"#FFFFFF")
+
+;;(set-frame-width nil 320)
+
+;; maximise window vertically
+(set-frame-height nil 95)
 
 ;; start with the shell open
 (shell)
