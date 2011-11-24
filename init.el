@@ -100,7 +100,7 @@
 (defun write-code ()
   (interactive)
   (global-visual-line-mode 0)
-  (show-paren-mode)
+  (show-paren-mode 1)
   (setq mode-line-format
     (list "-"
       'mode-line-mule-info
