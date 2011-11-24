@@ -90,8 +90,6 @@
 ;; widescreen, no line-wrap
 (defun write-code ()
   (interactive)
-  ;;(set-frame-width nil 320)
-  (set-frame-height nil 95)
   (global-visual-line-mode 0)
   (show-paren-mode)
   (setq mode-line-format
