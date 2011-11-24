@@ -8,6 +8,9 @@
 ;; markdown
 (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
+;; vc-diff colours
+(require 'diff-mode-)
+
 ;; add git to shell path
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/git/bin"))
 (setq exec-path (append exec-path '("/usr/local/git/bin")))
