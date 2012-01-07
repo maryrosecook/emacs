@@ -105,8 +105,9 @@
 ;; narrower window, better line wrapping for prose
 (defun write-words ()
   (interactive)
-  (set-frame-width nil 90)
-  (global-visual-line-mode t)
+  (set-frame-width nil 70)
+  (set-frame-height nil 45)
+  (visual-line-mode t)
   (setq mode-line-format nil)
   (show-paren-mode nil))
 
