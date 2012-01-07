@@ -60,6 +60,9 @@
 
 (require 'haml-mode)
 
+;;aliases
+(defalias 'dm 'diff-mode)
+
 ;;setup textmate mode and peepopen
 (add-to-list 'load-path "~/.emacs.d/vendor/textmate.el")
 (add-to-list 'load-path "~/.emacs.d/vendor/")
