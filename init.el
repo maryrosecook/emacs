@@ -29,6 +29,9 @@
 (setq backup-inhibited t)
 (setq auto-save-default nil)
 
+;; auto-revert all buffers that were changed in the backgroun
+(global-auto-revert-mode t)
+
 ;; Standard Emacs functionality
 (setq-default comint-prompt-read-only t)
 (setq-default indent-tabs-mode nil)
