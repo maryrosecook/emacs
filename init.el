@@ -180,6 +180,8 @@
 (global-set-key "\C-x\C-r" 'revert-buffer-no-confirm) ;; remap revert buffer
 (global-set-key "\C-x\M-r" 'rename-file-and-buffer)
 
+(modify-syntax-entry ?_ "w" js-mode-syntax-table)
+
 ;; map start of file and end of file commands to nicer key combos
 (global-set-key (read-kbd-macro "M-[") 'beginning-of-buffer)
 (global-set-key (read-kbd-macro "M-]") 'end-of-buffer)
