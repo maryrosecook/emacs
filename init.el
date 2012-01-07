@@ -163,9 +163,12 @@
 ;; Don't auto-truncate lines in shell mode
 (add-hook 'shell-mode-hook '(lambda () (toggle-truncate-lines 1)))
 
+(global-unset-key "\C-z")
+
 ;; Key bindings
 (global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
+(global-set-key "\C-z\C-x" 'shell-command) ;; shortcut for shell command
 (global-set-key (read-kbd-macro "C-x g") 'rgrep)
 (global-set-key (kbd "RET") 'newline-and-indent) ;; indent previous line after
 (global-set-key (read-kbd-macro "C-x l") 'js-insert-console) ;; insert console.log()
