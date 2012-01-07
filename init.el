@@ -91,6 +91,12 @@
   (backward-char))
 
 ;; inserts js log call and puts cursor between brackets
+(defun html-insert-code ()
+  (interactive)
+  (insert "<code></code>")
+  (backward-char) (backward-char) (backward-char) (backward-char) (backward-char) (backward-char) (backward-char))
+
+;; inserts js log call and puts cursor between brackets
 (defun js-insert-function ()
   (interactive)
   (insert "function() {}")
