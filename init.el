@@ -173,6 +173,7 @@
 (global-set-key (kbd "RET") 'newline-and-indent) ;; indent previous line after
 (global-set-key (read-kbd-macro "C-x l") 'js-insert-console) ;; insert console.log()
 (global-set-key (read-kbd-macro "C-x f") 'js-insert-function) ;; insert function() {}
+(global-set-key (read-kbd-macro "C-x e") 'html-insert-code) ;; insert <code></code>
 (global-set-key (read-kbd-macro "C-x w") 'write-words)
 (global-set-key (read-kbd-macro "C-x c") 'write-code)
 (global-set-key (read-kbd-macro "M-s") 'query-replace)
