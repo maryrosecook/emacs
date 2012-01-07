@@ -193,7 +193,7 @@
 (global-set-key (read-kbd-macro "C-x t") 'ns-toggle-fullscreen)
 
 ;; set indent levels
-(setq default-tab-width 4)
+(setq default-tab-width 2)
 (setq js-indent-level 2)
 (setq ruby-indent-level 2)
 
