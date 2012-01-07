@@ -195,6 +195,7 @@
 ;; set indent levels
 (setq default-tab-width 2)
 (setq js-indent-level 2)
+(setq js2-indent-level 2)
 (setq ruby-indent-level 2)
 
 ;; can't remember what this does
