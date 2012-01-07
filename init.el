@@ -219,7 +219,20 @@
   ;; If you edit it by hand, you could mess it up, so be careful.
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
- '(default ((t (:height 125 :family "Inconsolata")))))
+ '(default ((t (:height 125 :family "Inconsolata"))))
+ '(diff-added ((((background dark)) (:background "#113311"))))
+ '(diff-changed ((((background dark)) (:foreground "Yellow")) (t (:foreground "MediumBlue"))))
+ '(diff-context ((((background dark)) (:foreground "White")) (t (:foreground "Black"))))
+ '(diff-file-header ((((background dark)) (:background "#000088"))))
+ '(diff-file2-hunk-header ((((background dark)) (:background "#000088"))))
+ '(diff-function ((t nil)))
+ '(diff-header ((((background dark)) (:background "#000088"))))
+ '(diff-hunk-header ((((background dark)) (:background "#000088"))))
+ '(diff-index ((((background dark)) (:foreground "#00ff00"))))
+ '(diff-indicator-added ((((background dark)) (:background "#003300" :foreground "#fff"))))
+ '(diff-indicator-removed ((((background dark)) (:background "#550000" :foreground "#FFFFFF"))))
+ '(diff-nonexistent ((((background dark)) (:foreground "#FFFFFFFF7474")) (t (:foreground "DarkBlue"))))
+ '(diff-removed ((((background dark)) (:background "#550000")))))
 
 (write-code)
 
