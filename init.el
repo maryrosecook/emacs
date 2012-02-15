@@ -2,6 +2,7 @@
 (add-to-list 'load-path "~/.emacs.d/")
 
 (add-to-list 'auto-mode-alist '("\\.rb\\'" . ruby-mode))
+(add-to-list 'load-path "~/.emacs.d/vendor/ruby-mode")
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing Ruby code" t)
 (add-hook 'ruby-mode-hook (lambda () (local-set-key "\r" 'newline-and-indent)))
 
@@ -13,6 +14,10 @@
 ;; coffeescript major mode
 (add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
 (require 'coffee-mode)
+
+;; clojure mode
+(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
+(require 'clojure-mode)
 
 ;; vc-diff colours
 (require 'diff-mode-)
@@ -29,8 +34,20 @@
 (setq backup-inhibited t)
 (setq auto-save-default nil)
 
-;; auto-revert all buffers that were changed in the backgroun
+;; set all buffers to auto-revert when they were changed in the background
 (global-auto-revert-mode t)
+
+;; smooth scrolling
+(require 'smooth-scroll)
+(smooth-scroll-mode t)
+
+;; multi web mode
+(require 'multi-web-mode)
+(setq mweb-default-major-mode 'html-mode)
+(setq mweb-tags '((js-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
+                  (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
+(setq mweb-filename-extensions '("htm" "html" "erb"))
+(multi-web-global-mode 1)
 
 ;; Standard Emacs functionality
 (setq-default comint-prompt-read-only t)
@@ -44,7 +61,6 @@
 (tool-bar-mode 0)
 (scroll-bar-mode nil)
 (column-number-mode)
-(show-paren-mode)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;; Put backup files (ie foo~) in one place too. (The backup-directory-alist
@@ -54,9 +70,6 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 
 (require 'color-theme)
-(color-theme-initialize)
-(color-theme-blackboard)
-(set-face-background 'fringe "#0C1021")
 
 (require 'haml-mode)
 
@@ -105,8 +118,9 @@
 ;; narrower window, better line wrapping for prose
 (defun write-words ()
   (interactive)
-  (set-frame-width nil 70)
-  (set-frame-height nil 45)
+  (color-theme-emacs-21)
+  (setq-default line-spacing 2)
+  (set-frame-width nil 90)
   (visual-line-mode t)
   (setq mode-line-format nil)
   (show-paren-mode nil))
@@ -114,7 +128,11 @@
 ;; widescreen, no line-wrap
 (defun write-code ()
   (interactive)
+  (color-theme-initialize)
+  (color-theme-blackboard)
+  (set-face-background 'fringe "#0C1021")
   (global-visual-line-mode 0)
+  (setq-default line-spacing 0)
   (show-paren-mode 1)
   (setq mode-line-format
     (list "-"
@@ -163,6 +181,7 @@
 ;; Don't auto-truncate lines in shell mode
 (add-hook 'shell-mode-hook '(lambda () (toggle-truncate-lines 1)))
 
+;; no more accidental minimising
 (global-unset-key "\C-z")
 
 ;; Key bindings
@@ -189,7 +208,7 @@
 ;; remap dynamic expansion to escape
 (global-set-key (kbd "<escape>") 'dabbrev-expand)
 
-;; go full screen (os x and fullscreen brew install of emacs 23 only)
+;; bind key to go full screen (os x and fullscreen brew install of emacs 23 only)
 (global-set-key (read-kbd-macro "C-x t") 'ns-toggle-fullscreen)
 
 ;; set indent levels
@@ -220,19 +239,20 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  '(default ((t (:height 125 :family "Inconsolata"))))
- '(diff-added ((((background dark)) (:background "#113311"))))
- '(diff-changed ((((background dark)) (:foreground "Yellow")) (t (:foreground "MediumBlue"))))
- '(diff-context ((((background dark)) (:foreground "White")) (t (:foreground "Black"))))
- '(diff-file-header ((((background dark)) (:background "#000088"))))
+ '(diff-added ((((background dark)) (:foreground "#FFFF9B9BFFFF")) (t (:foreground "DarkGreen"))) t)
+ '(diff-changed ((((background dark)) (:foreground "Yellow")) (t (:foreground "MediumBlue"))) t)
+ '(diff-context ((((background dark)) (:foreground "White")) (t (:foreground "Black"))) t)
+ '(diff-file-header ((((background dark)) (:foreground "Cyan" :background "Black")) (t (:foreground "Red" :background "White"))) t)
  '(diff-file2-hunk-header ((((background dark)) (:background "#000088"))))
  '(diff-function ((t nil)))
- '(diff-header ((((background dark)) (:background "#000088"))))
- '(diff-hunk-header ((((background dark)) (:background "#000088"))))
- '(diff-index ((((background dark)) (:foreground "#00ff00"))))
+ '(diff-header ((((background dark)) (:foreground "Cyan")) (t (:foreground "Red"))) t)
+ '(diff-hunk-header ((((background dark)) (:foreground "Black" :background "#05057F7F8D8D")) (t (:foreground "White" :background "Salmon"))) t)
+ '(diff-index ((((background dark)) (:foreground "Magenta")) (t (:foreground "Green"))) t)
  '(diff-indicator-added ((((background dark)) (:background "#003300" :foreground "#fff"))))
  '(diff-indicator-removed ((((background dark)) (:background "#550000" :foreground "#FFFFFF"))))
- '(diff-nonexistent ((((background dark)) (:foreground "#FFFFFFFF7474")) (t (:foreground "DarkBlue"))))
- '(diff-removed ((((background dark)) (:background "#550000")))))
+ '(diff-nonexistent ((((background dark)) (:foreground "#FFFFFFFF7474")) (t (:foreground "DarkBlue"))) t)
+ '(diff-removed ((((background dark)) (:foreground "#7474FFFF7474")) (t (:foreground "DarkMagenta"))) t)
+ '(js2-external-variable-face ((t (:foreground "white")))))
 
 ;; add bash completion
 (autoload 'bash-completion-dynamic-complete
@@ -255,10 +275,7 @@
 (setq-default cursor-type '(bar . 1))
 (set-cursor-color '"#FFFFFF")
 
-;;(set-frame-width nil 320)
-
-;; maximise window vertically
-(set-frame-height nil 95)
+(set-frame-height nil 53)
 
 ;; start with the shell open
 (shell)
