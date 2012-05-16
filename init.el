@@ -198,6 +198,29 @@
 
 ;; no more accidental transposing when trying to yank
 (global-unset-key "\C-t")
+
+;; save a list of open files in ~/.emacs.desktop
+;; save the desktop file automatically if it already exists
+;; save a bunch of variables to the desktop file
+;; for lists specify the len of the maximal saved data also
+(setq desktop-save 'if-exists)
+(desktop-save-mode 1)
+(setq desktop-restore-eager 10)
+(setq desktop-globals-to-save
+      (append '((extended-command-history . 20)
+                (file-name-history        . 20)
+                (grep-history             . 20)
+                (compile-history          . 20)
+                (minibuffer-history       . 20)
+                (query-replace-history    . 10)
+                (read-expression-history  . 20)
+                (regexp-history           . 20)
+                (regexp-search-ring       . 20)
+                (search-ring              . 10)
+                (shell-command-history    . 10)
+                tags-file-name
+                register-alist)))
+
 ;; Key bindings
 (global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
