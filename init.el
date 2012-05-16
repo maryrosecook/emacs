@@ -15,6 +15,12 @@
 (add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
 (require 'coffee-mode)
 
+;; peg mode
+(autoload 'peg-mode "peg-mode" "Mode for editing PEG grammar files" t)
+(setq auto-mode-alist
+      (append '(("\\.peg$"    . peg-mode))
+              auto-mode-alist))
+
 ;; clojure mode
 (add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
 (require 'clojure-mode)
