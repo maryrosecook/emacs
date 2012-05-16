@@ -77,6 +77,7 @@
 (setq backup-directory-alist (list (cons "." backup-dir)))
 
 (require 'color-theme)
+(setq color-theme-is-global nil)
 
 (require 'haml-mode)
 
@@ -195,6 +196,8 @@
 ;; no more accidental minimising
 (global-unset-key "\C-z")
 
+;; no more accidental transposing when trying to yank
+(global-unset-key "\C-t")
 ;; Key bindings
 (global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
