@@ -125,36 +125,40 @@
 ;; narrower window, better line wrapping for prose
 (defun write-words ()
   (interactive)
-  (color-theme-emacs-21)
-  (setq-default line-spacing 2)
+  (color-theme-emacs-21-custom)
+  ;;(set-face-background 'fringe "#ffffff")
+  (setq line-spacing 2)
   (set-frame-width nil 90)
+  (set-frame-height nil 50)
+
   (visual-line-mode t)
   (setq mode-line-format nil)
-  (show-paren-mode nil))
+  (show-paren-mode 0))
 
 ;; widescreen, no line-wrap
 (defun write-code ()
-  (interactive)
   (color-theme-initialize)
   (color-theme-blackboard)
-  (set-face-background 'fringe "#0C1021")
-  (global-visual-line-mode 0)
-  (setq-default line-spacing 0)
+  (interactive)
+  ;;(set-face-background 'fringe "#0C1021")
+  (visual-line-mode 0)
+  (setq line-spacing 0)
   (show-paren-mode 1)
+  ;; (set-frame-width nil 90)
+  ;; (set-frame-height nil 50)
+
   (setq mode-line-format
     (list "-"
-      'mode-line-mule-info
-      'mode-line-modified
-      'mode-line-frame-identification
-      'mode-line-buffer-identification
-      "   "
-      'mode-line-position
-      '(vc-mode vc-mode)
-      "   "
-      'mode-line-modes
-      '(which-func-mode ("" which-func-format))
-      '(global-mode-string (global-mode-string))
-      )))
+          'mode-line-mule-info
+          'mode-line-modified
+          'mode-line-frame-identification
+          'mode-line-buffer-identification
+          "   "
+          'mode-line-position
+          "   "
+          ;;'mode-line-modes
+          '(which-func-mode ("" which-func-format))
+          '(global-mode-string (global-mode-string)))))
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
@@ -282,7 +286,7 @@
 (setq-default cursor-type '(bar . 1))
 (set-cursor-color '"#FFFFFF")
 
-(set-frame-height nil 53)
+(set-frame-height nil 50)
 
 ;; start with the shell open
 (shell)
