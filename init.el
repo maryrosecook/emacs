@@ -22,8 +22,9 @@
               auto-mode-alist))
 
 ;; clojure mode
-(add-to-list 'load-path "~/.emacs.d/vendor/coffee-mode")
+(add-to-list 'load-path "~/.emacs.d/clojure-mode")
 (require 'clojure-mode)
+(add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode)) ;; use clojure-mode for clojurescript files
 
 ;; vc-diff colours
 (require 'diff-mode-)
