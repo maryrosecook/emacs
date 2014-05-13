@@ -1,3 +1,6 @@
 auto-save-list
 .emacs.desktop.lock
 .emacs.desktop
+elpa
+.DS_Store
+src/vendor
