@@ -26,7 +26,8 @@
 (ac-config-default)
 (setq ac-auto-show-menu nil)
 
-;; tern (JS tooling)
+;; tern (JS jump-to-definiton, function autocomplete)
+
 (add-to-list 'load-path "~/.emacs.d/vendor/tern/emacs/")
 (autoload 'tern-mode "tern.el" nil t)
 (add-hook 'js-mode-hook (lambda () (tern-mode t)))
@@ -35,8 +36,18 @@
       (require 'tern-auto-complete)
       (tern-ac-setup)))
 
+;; little hack to make current line highlight after jumping to definition of symbol
+(advice-add 'tern-go-to-position :after (lambda (&rest _) (global-hl-line-highlight)))
+
+;; highlight the line that the cursor is currently on
+(require 'hl-line+)
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#06203b")
+
+(advice-add 'hl-line-highlight :after #'his-tracing-function)
+
 ;; ioke mode
-;; (require 'ioke-mode)
+(require 'ioke-mode)
 
 ;; markdown mode with support for other langs
 (setq load-path
