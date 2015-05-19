@@ -21,10 +21,8 @@
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
 
-;; enable auto-complete
-(require 'auto-complete-config)
-(ac-config-default)
-(setq ac-auto-show-menu nil)
+;; turn on paredit in js-mode
+(global-set-key "\M-s" 'paredit-splice-sexp) ;; set this - unset for some reason
 
 ;; tern (JS jump-to-definiton, function autocomplete)
 
@@ -42,12 +40,9 @@
 ;; highlight the line that the cursor is currently on
 (require 'hl-line+)
 (global-hl-line-mode 1)
-(set-face-background 'hl-line "#06203b")
+(set-face-background 'hl-line "#132d48")
 
 (advice-add 'hl-line-highlight :after #'his-tracing-function)
-
-;; ioke mode
-(require 'ioke-mode)
 
 ;; markdown mode with support for other langs
 (setq load-path
@@ -66,7 +61,7 @@
 ;; peg mode
 (autoload 'peg-mode "peg-mode" "Mode for editing PEG grammar files" t)
 (setq auto-mode-alist
-      (append '(("\\.peg$"    . peg-mode))
+      (append '(("\\.pegjs$"    . peg-mode))
               auto-mode-alist))
 
 ;; clojure mode
@@ -74,12 +69,6 @@
 (require 'clojure-mode)
 (add-to-list 'auto-mode-alist '("\.cljs$" . clojure-mode))
 (add-to-list 'auto-mode-alist '("\.clj$" . clojure-mode))
-
-;; (add-hook 'slime-repl-mode-hook
-;;           (defun clojure-mode-slime-font-lock ()
-;;             (require 'clojure-mode)
-;;             (let (font-lock-mode)
-;;               (clojure-mode-font-lock-setup))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -92,7 +81,9 @@
 
 ;; add package manager
 (add-to-list 'load-path "~/.emacs.d/src/packages/")
-(require 'package) (add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")) (package-initialize)
+(require 'package)
+(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+(package-initialize)
 
 ;; vc-diff colours
 (require 'diff-mode-)
@@ -136,7 +127,6 @@
 (multi-web-global-mode 1)
 
 ;; Standard Emacs functionality
-(setq-default comint-prompt-read-only t)
 (setq-default indent-tabs-mode nil)
 (setq-default inhibit-startup-message t)
 (setq-default next-line-add-newlines nil)
@@ -156,9 +146,6 @@
 
 (require 'haml-mode)
 
-;; aliases
-(defalias 'dm 'diff-mode)
-
 ;; set ruby highlighting for files without .rb extension
 (add-to-list 'auto-mode-alist '("\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\.gemspec$" . ruby-mode))
@@ -177,26 +164,11 @@
   (insert (cond ((string= (current-major-mode) "clojure-mode")
                  "(println )")
                 (t
-                 "console.log()")))
+                 "console.log();")))
+  (backward-char)
   (backward-char))
 
 (eq (current-major-mode) "a")
-;; inserts js log call and puts cursor between brackets
-(defun insert-code-tags ()
-  (interactive)
-  (insert "<code></code>")
-  (backward-char)(backward-char)(backward-char)(backward-char)
-  (backward-char)(backward-char)(backward-char))
-
-(defun insert-map ()
-  (interactive)
-  (insert "(map (fn [x] ) )")
-  (backward-char) (backward-char) (backward-char))
-
-(defun insert-reduce ()
-  (interactive)
-  (insert "(reduce (fn [acc x] ) )")
-  (backward-char) (backward-char) (backward-char))
 
 ;; inserts js log call and puts cursor between brackets
 (defun js-insert-function ()
@@ -260,7 +232,7 @@
   (setq mode-line-format nil)
   (set-face-attribute 'default nil :font "bitstream vera sans mono-11")
   (set-frame-width (selected-frame) 80)
-  (set-frame-height (selected-frame) 53)
+  (set-frame-height (selected-frame) 55)
   (setq line-spacing 2)
   (visual-line-mode t)
   (show-paren-mode 0))
@@ -358,21 +330,17 @@
 ;; Key bindings
 (global-set-key "\M-u" 'execute-extended-command)
 (global-set-key "\C-x\M-f" 'new-scratch-file)
-(global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
+(global-set-key "\C-l" 'goto-line)
+(global-set-key "\C-t" 'recenter-top-bottom)
 (global-set-key "\C-z\C-x" 'shell-command) ;; shortcut for shell command
 (global-set-key (read-kbd-macro "C-x g") 'rgrep)
-(global-set-key (kbd "RET") 'newline-and-indent) ;; indent previous line after
 (global-set-key (read-kbd-macro "C-x l") 'insert-print) ;; insert console.log()
-(global-set-key (read-kbd-macro "C-x m") 'insert-map)
-(global-set-key (read-kbd-macro "C-x n") 'insert-reduce)
 (global-set-key (read-kbd-macro "C-x w") 'write-words)
-(global-set-key (read-kbd-macro "C-x f") 'flyspell-mode)
 (global-set-key (read-kbd-macro "C-x c") 'write-code)
-(global-set-key (read-kbd-macro "C-x j") 'insert-code-tags)
 (global-set-key (read-kbd-macro "C-x t") 'toggle-frame-fullscreen)
 
-(global-set-key (read-kbd-macro "M-s") 'query-replace-regexp)
+(global-set-key "\M-p" 'query-replace-regexp)
 (global-set-key "\C-x\C-r" 'revert-buffer-no-confirm) ;; remap revert buffer
 (global-set-key "\C-x\M-r" 'rename-file-and-buffer)
 
@@ -391,6 +359,10 @@
 (setq css-indent-offset 2)
 (setq ruby-indent-level 2)
 (setq java-indent-level 2)
+(setq elm-indent-offset 2)
+
+;; elm
+;; (add-hook 'elm-mode-hook 'turn-off-elm-indent)
 
 ;; can't remember what this does
 (require 'uniquify)
@@ -402,10 +374,6 @@
 ;; pipe down
 (setq bell-volume 0)
 (setq sound-alist nil)
-
-;; tramp - /sub.server.com:public_html/foo.html
-;; (require 'tramp)
-;; (setq tramp-default-method "scp")
 
 ;; (set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-106-*-*-*-*-*-*")
 (custom-set-faces
@@ -451,14 +419,9 @@
 (fringe-mode '(5 . 0))
 
 (setq-default cursor-type '(bar . 1))
-(set-cursor-color '"#FFFFFF")
+(set-cursor-color '"#000000")
 
 (set-frame-height nil 50)
-
-;; add spell check
-(setq ispell-program-name "aspell" ; use aspell instead of ispell
-      ispell-extra-args '("--sug-mode=ultra"))
-(autoload 'flyspell-mode "flyspell" "On-the-fly spelling checker." t)
 
 ;; add undo tree visualisation
 (require 'undo-tree)
@@ -471,8 +434,8 @@
 ;; don't use OS X's native fullscreen
 (setq ns-use-native-fullscreen nil)
 
-;; do automatic wrapping of comments
-(require 'newcomment)
-(setq comment-auto-fill-only-comments 1)
+;; DEL during isearch should edit the search string, not jump back to
+;; the previous result
+(define-key isearch-mode-map [remap isearch-delete-char] 'isearch-del-char)
 
 (write-code)
