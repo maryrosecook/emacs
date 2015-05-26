@@ -54,6 +54,16 @@
 
 (require 'dash)
 
+(defun visit-ansi-term ()
+  "Create or visit an `ansi-term' buffer."
+  (interactive)
+  (if (not (get-buffer "*ansi-term*"))
+      (progn
+        (split-window-sensibly (selected-window))
+        (other-window 1)
+        (ansi-term "/bin/bash"))
+    (switch-to-buffer-other-window "*ansi-term*")))
+
 ;; Make C-u equivalent to C-x (for my dvorak keyboard)
 (keyboard-translate ?\C-x ?\C-u)
 (keyboard-translate ?\C-u ?\C-x)
@@ -75,6 +85,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-names-vector
+   ["black" "red" "green3" "yellow" "SteelBlue1" "magenta3" "cyan3" "gray90"])
  '(custom-safe-themes
    (quote
     ("3527fd78ef69e7f42481e6de5bf7782b5552a88bfe2a600cf9734b7a6d89b33f" default))))
@@ -230,7 +242,7 @@
 (defun write-words ()
   (interactive)
   (setq mode-line-format nil)
-  (set-face-attribute 'default nil :font "bitstream vera sans mono-11")
+  (set-face-attribute 'default nil :font "dejavu sans mono-11")
   (set-frame-width (selected-frame) 80)
   (set-frame-height (selected-frame) 55)
   (setq line-spacing 2)
@@ -245,7 +257,7 @@
   (load-theme 'blackboard)
   (set-cursor-color "#ffffff")
   (set-face-background 'fringe "#0C1021")
-  (set-face-attribute 'default nil :font "bitstream vera sans mono-11")
+  (set-face-attribute 'default nil :font "dejavu sans mono-11")
   (set-frame-width (selected-frame) 80)
   (set-frame-height (selected-frame) 55)
   (visual-line-mode 0)
@@ -258,6 +270,19 @@
           "%m"
           ;; 'minor-mode-alist ;; don't show minor modes
           '(global-mode-string (global-mode-string)))))
+
+
+;; allow toggling between line mode and char mode in ansi-term using C-x C-j
+
+(defun jnm/term-toggle-mode ()
+  "Toggles term between line mode and char mode"
+  (interactive)
+  (if (term-in-line-mode)
+      (term-char-mode)
+    (term-line-mode)))
+
+(define-key term-mode-map (kbd "C-x C-j") 'jnm/term-toggle-mode)
+(define-key term-raw-map (kbd "C-x C-j") 'jnm/term-toggle-mode)
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
@@ -305,7 +330,7 @@
 ;; no more global unset column when missing C-s during save
 (global-unset-key "\C-x\C-n")
 
-;; save a list of open files in ~/.emacs.desktop
+;; save a list of open files in ~/.emacs.d/.emacs.desktop
 ;; save the desktop file automatically if it already exists
 ;; save a bunch of variables to the desktop file
 ;; for lists specify the len of the maximal saved data also
@@ -330,7 +355,7 @@
 ;; Key bindings
 (global-set-key "\M-u" 'execute-extended-command)
 (global-set-key "\C-x\M-f" 'new-scratch-file)
-(global-set-key "\C-x\C-z" 'shell) ;; shortcut for shell
+(global-set-key "\C-x\C-z" 'visit-ansi-term)
 (global-set-key "\C-l" 'goto-line)
 (global-set-key "\C-t" 'recenter-top-bottom)
 (global-set-key "\C-z\C-x" 'shell-command) ;; shortcut for shell command
@@ -375,12 +400,20 @@
 (setq bell-volume 0)
 (setq sound-alist nil)
 
-;; (set-default-font "-*-bitstream vera sans mono-*-*-*-*-*-106-*-*-*-*-*-*")
+;; set ansi-term program to bash
+(setq ansi-term-program "/bin/bash")
+
+;; set ansi term color values
+(defface term-color-blue '((t (:foreground "#45B7FE" ))) "")
+(defface term-color-red '((t (:foreground "#ff3333" ))) "")
+(defface term-color-yellow '((t (:foreground "#FFFF00" ))) "")
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(default ((t (:inherit nil :stipple nil :background "#0A1020" :foreground "#F8F8F8" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 110 :width normal :foundry "nil" :family "DejaVu Sans Mono"))))
  '(diff-added ((((background dark)) (:foreground "#FFFF9B9BFFFF")) (t (:foreground "DarkGreen"))) t)
  '(diff-changed ((((background dark)) (:foreground "Yellow")) (t (:foreground "MediumBlue"))) t)
  '(diff-context ((((background dark)) (:foreground "White")) (t (:foreground "Black"))) t)
