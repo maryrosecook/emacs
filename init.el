@@ -62,7 +62,22 @@
         (split-window-sensibly (selected-window))
         (other-window 1)
         (ansi-term "/bin/bash"))
-    (switch-to-buffer-other-window "*ansi-term*")))
+    (switch-to-buffer "*ansi-term*")))
+
+;; allow toggling between line mode and char mode in ansi-term using C-x C-j
+(global-set-key (kbd "C-x C-j") 'jnm/term-toggle-mode)
+
+(defun jnm/term-toggle-mode ()
+  "Toggles term between line mode and char mode"
+  (interactive)
+  (if (term-in-line-mode)
+      (term-char-mode)
+    (term-line-mode)))
+
+;; make ansi-term have infinite buffer size (scrollback)
+(add-hook 'term-mode-hook
+          (lambda ()
+            (setq term-buffer-maximum-size 10000)))
 
 ;; Make C-u equivalent to C-x (for my dvorak keyboard)
 (keyboard-translate ?\C-x ?\C-u)
@@ -270,19 +285,6 @@
           "%m"
           ;; 'minor-mode-alist ;; don't show minor modes
           '(global-mode-string (global-mode-string)))))
-
-
-;; allow toggling between line mode and char mode in ansi-term using C-x C-j
-
-(defun jnm/term-toggle-mode ()
-  "Toggles term between line mode and char mode"
-  (interactive)
-  (if (term-in-line-mode)
-      (term-char-mode)
-    (term-line-mode)))
-
-(define-key term-mode-map (kbd "C-x C-j") 'jnm/term-toggle-mode)
-(define-key term-raw-map (kbd "C-x C-j") 'jnm/term-toggle-mode)
 
 ;; source: http://steve.yegge.googlepages.com/my-dot-emacs-file
 (defun rename-file-and-buffer (new-name)
