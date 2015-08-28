@@ -21,8 +21,8 @@
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 (setq auto-mode-alist (cons '("\\.markdown" . markdown-mode) auto-mode-alist))
 
-;; turn on paredit in js-mode
-(global-set-key "\M-s" 'paredit-splice-sexp) ;; set this - unset for some reason
+;; web-mode for jsx
+(add-to-list 'auto-mode-alist '("\\.jsx$" . js-mode))
 
 ;; tern (JS jump-to-definiton, function autocomplete)
 
@@ -104,7 +104,8 @@
    ["black" "red" "green3" "yellow" "SteelBlue1" "magenta3" "cyan3" "gray90"])
  '(custom-safe-themes
    (quote
-    ("3527fd78ef69e7f42481e6de5bf7782b5552a88bfe2a600cf9734b7a6d89b33f" default))))
+    ("3527fd78ef69e7f42481e6de5bf7782b5552a88bfe2a600cf9734b7a6d89b33f" default)))
+ '(wakatime-api-key "202c62a3-a440-4bec-b844-a58d4ff97980"))
 
 ;; add package manager
 (add-to-list 'load-path "~/.emacs.d/src/packages/")
@@ -247,7 +248,7 @@
   (interactive)
   (let* ((text-dir "~/text/") (code-dir "~/code/scratch/")
          (dirs (list text-dir code-dir))
-         (name (get-next-scratch-file-name dirs 350))
+         (name (get-next-scratch-file-name dirs 420))
          (name (read-string "File name: " name)))
     (if (string-match "[.]+" name)
         (new-buffer-with-ready-file code-dir name)
@@ -259,7 +260,7 @@
   (setq mode-line-format nil)
   (set-face-attribute 'default nil :font "dejavu sans mono-11")
   (set-frame-width (selected-frame) 80)
-  (set-frame-height (selected-frame) 55)
+  (set-frame-height (selected-frame) 65)
   (setq line-spacing 2)
   (visual-line-mode t)
   (show-paren-mode 0))
