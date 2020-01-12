@@ -1,0 +1,5 @@
+# -*- mode: js -*-
+# name: js require
+# key: req
+# --
+const $1 = require("$2");

@@ -1,0 +1,6 @@
+# -*- mode: js -*-
+# key: desc
+# --
+describe("$1", () => {
+  $2
+});

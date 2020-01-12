@@ -1,0 +1,7 @@
+# -*- mode: js -*-
+# name: Arrow function
+# key: arr
+# --
+($2) => {
+  $3
+}$1

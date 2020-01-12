@@ -1,0 +1,7 @@
+# -*- mode: js -*-
+# name: Define method
+# key: def
+# --
+def $2($3)
+  $4
+end$1
